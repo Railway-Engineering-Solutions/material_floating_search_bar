@@ -1,1 +1,4 @@
 .dart_tool/
+.packages
+example/.packages
+example/.dart_tool/
