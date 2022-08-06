@@ -1,8 +1,8 @@
 # Material Floating Search Bar
 
-[![pub package](https://img.shields.io/pub/v/material_floating_search_bar.svg)](https://pub.dartlang.org/packages/material_floating_search_bar)
-[![GitHub Stars](https://img.shields.io/github/stars/bxqm/material_floating_search_bar.svg?logo=github)](https://github.com/bxqm/material_floating_search_bar)
+**Please be aware, this is a fork of the official package as it appears to no longer be maintained.**
 
+---
 
 A Flutter implementation of an expandable floating search bar, also known as persistent search, similar to the ones used extensively by Google in their own apps.
 
