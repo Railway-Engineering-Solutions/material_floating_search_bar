@@ -119,7 +119,7 @@ class FloatingSearchBarAction extends StatelessWidget {
         final bar = FloatingSearchAppBar.of(context)!;
 
         return ValueListenableBuilder<String>(
-          valueListenable: bar.queryNotifer,
+          valueListenable: bar.queryNotifier,
           builder: (context, query, _) {
             final isEmpty = query.isEmpty;
 

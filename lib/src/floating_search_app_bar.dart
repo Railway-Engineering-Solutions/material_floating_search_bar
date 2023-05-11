@@ -34,7 +34,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
   /// The shadow color for the elevation
   final Color? shadowColor;
 
-  /// Can be used to override the `IconThemeDatas` color
+  /// Can be used to override the `IconThemeData` color
   final Color? iconColor;
 
   /// The padding of the bar
@@ -137,8 +137,8 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
   /// {@macro floating_search_bar.autocorrect}
   final bool autocorrect;
 
-  /// {@macro floating_search_bar.toolbarOptions}
-  final ToolbarOptions? toolbarOptions;
+  /// {@macro floating_search_bar.contextMenuBuilder}
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
 
   final ValueChanged<KeyEvent>? onKeyEvent;
   const FloatingSearchAppBar({
@@ -181,7 +181,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
     this.textInputAction = TextInputAction.search,
     this.textInputType = TextInputType.text,
     this.autocorrect = true,
-    this.toolbarOptions,
+    this.contextMenuBuilder,
     this.onKeyEvent,
   })  : assert(progress == null || (progress is num || progress is bool)),
         super(key, implicitDuration, implicitCurve);
@@ -196,7 +196,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
 
 class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     FloatingSearchAppBarStyle, FloatingSearchAppBar> {
-  final ValueNotifier<String> queryNotifer = ValueNotifier('');
+  final ValueNotifier<String> queryNotifier = ValueNotifier('');
   final Handler _handler = Handler();
 
   late final controller =
@@ -228,8 +228,8 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
 
   late final TextController _input = TextController()
     ..addListener(() {
-      if (_input.text != queryNotifer.value) {
-        queryNotifer.value = _input.text;
+      if (_input.text != queryNotifier.value) {
+        queryNotifier.value = _input.text;
 
         _handler.post(
           // Do not add a delay when the query is empty.
@@ -270,7 +270,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         : actions;
   }
 
-  bool get hasleadingActions => leadingActions.isNotEmpty;
+  bool get hasLeadingActions => leadingActions.isNotEmpty;
   List<Widget> get leadingActions {
     final actions = widget.leadingActions ?? const <Widget>[];
     final showHamburger = widget.automaticallyImplyDrawerHamburger &&
@@ -388,7 +388,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
       return active.isNotEmpty;
     }
 
-    final hasleadingActions = hasActions(leadingActions);
+    final hasLeadingActions = hasActions(leadingActions);
     final hasEndActions = hasActions(actions);
 
     final isDefaultPadding = style.padding.horizontal == 24.0;
@@ -396,7 +396,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
 
     insets = EdgeInsets.lerp(
       style.insets.copyWith(
-        left: !hasleadingActions ? inset : null,
+        left: !hasLeadingActions ? inset : null,
         right: !hasEndActions ? inset : null,
       ),
       style.insets,
@@ -602,7 +602,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
             maxLines: 1,
             autofocus: false,
             autocorrect: widget.autocorrect,
-            toolbarOptions: widget.toolbarOptions,
+            contextMenuBuilder: widget.contextMenuBuilder,
             cursorColor: style.accentColor,
             style: style.queryStyle,
             textInputAction: widget.textInputAction,
@@ -632,7 +632,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).appBarTheme.toolbarTextStyle ??
-                Theme.of(context).textTheme.headline6 ??
+                Theme.of(context).textTheme.titleLarge ??
                 const TextStyle(),
             child: input,
           );
@@ -642,9 +642,9 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         final textTheme = theme.textTheme;
 
         final textStyle = hasQuery
-            ? style.queryStyle ?? textTheme.subtitle1
+            ? style.queryStyle ?? textTheme.titleMedium
             : style.hintStyle ??
-                textTheme.subtitle1?.copyWith(color: theme.hintColor);
+                textTheme.titleMedium?.copyWith(color: theme.hintColor);
 
         input = Text(
           hasQuery ? query : widget.hint ?? '',
@@ -669,7 +669,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
 
   @override
   void dispose() {
-    queryNotifer.dispose();
+    queryNotifier.dispose();
     controller.dispose();
     scrollController.dispose();
     _handler.cancel();
@@ -695,12 +695,12 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
       liftOnScrollElevation: widget.liftOnScrollElevation,
       padding: widget.padding?.resolve(direction) ??
           EdgeInsetsDirectional.only(
-            start: hasleadingActions ? 12 : 16,
+            start: hasLeadingActions ? 12 : 16,
             end: hasActions ? 12 : 16,
           ).resolve(direction),
       insets: widget.insets?.resolve(direction) ??
           EdgeInsetsDirectional.only(
-            start: hasleadingActions ? 16 : 0,
+            start: hasLeadingActions ? 16 : 0,
             end: hasActions ? 16 : 0,
           ).resolve(direction),
       hintStyle: widget.hintStyle,

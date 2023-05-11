@@ -2,10 +2,6 @@
 # Lint rules to be used for apps without developer facing API. i.e. command line tools and Flutter applications
 ##
 analyzer:
-  strong-mode:
-    # Will become the default once non-nullable types land
-    # https://github.com/dart-lang/sdk/issues/31410#issuecomment-510683629
-    implicit-casts: true
   errors:
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning
@@ -36,12 +32,6 @@ linter:
     # pedantic: disabled
     # http://dart-lang.github.io/linter/lints/always_declare_return_types.html
     # - always_put_required_named_parameters_first
-
-    # All non nullable named parameters should be and annotated with @required.
-    # This allows API consumers to get warnings via lint rather than a crash a runtime.
-    # Might become obsolete with Non-Nullable types
-    # http://dart-lang.github.io/linter/lints/always_require_non_null_named_parameters.html
-    - always_require_non_null_named_parameters
 
     # Since dart 2.0 dart is a sound language, specifying types is not required anymore.
     # `var foo = 10;` is enough information for the compiler to make foo a int.
@@ -165,15 +155,6 @@ linter:
     # pedantic: disabled
     # https://dart-lang.github.io/linter/lints/avoid_returning_null.html
     # - avoid_returning_null
-
-    # Don't use `Future?`, therefore never return null instead of a Future.
-    # Will become obsolete one Non-Nullable types land
-    # https://dart-lang.github.io/linter/lints/avoid_returning_null_for_future.html
-    - avoid_returning_null_for_future
-
-    # Use empty returns, don't show off with you knowledge about dart internals.
-    # https://dart-lang.github.io/linter/lints/avoid_returning_null_for_void.html
-    - avoid_returning_null_for_void
 
     # Hinting you forgot about the cascade operator. But too often you did this on purpose.
     # There are plenty of valid reasons to return this.
@@ -439,26 +420,10 @@ linter:
     # https://dart-lang.github.io/linter/lints/package_prefixed_library_names.html
     - package_prefixed_library_names
 
-    # Most likely a mistake, if not: bad practice
-    # Not compatible with NNBD
-    # pedantic: disabled
-    # https://dart-lang.github.io/linter/lints/parameter_assignments.html
-    # - parameter_assignments
-
-    # Is contradictory to `no_adjacent_strings_in_list`
-    # pedantic: enabled
-    # https://dart-lang.github.io/linter/lints/prefer_adjacent_string_concatenation.html
-    # - prefer_adjacent_string_concatenation
-
     # Makes it easier to migrate to const constructors and to have final fields
     # pedantic: disabled
     # https://dart-lang.github.io/linter/lints/prefer_asserts_in_initializer_lists.html
     - prefer_asserts_in_initializer_lists
-
-    # Assertions blocks don't require a message because they throw simple to understand errors
-    # pedantic: disabled
-    # https://dart-lang.github.io/linter/lints/prefer_asserts_with_message.html
-    # - prefer_asserts_with_message
 
     # Collection literals are shorter. They exists, use them.
     # pedantic: enabled
@@ -509,12 +474,6 @@ linter:
     # pedantic: enabled
     # https://dart-lang.github.io/linter/lints/prefer_equal_for_default_values.html
     - prefer_equal_for_default_values
-
-    # Single line methods + implementation makes it hard to write comments for that line.
-    # Dense code isn't necessarily better code.
-    # pedantic: disabled
-    # https://dart-lang.github.io/linter/lints/prefer_expression_function_bodies.html
-    # - prefer_expression_function_bodies
 
     # Avoid accidental reassignments and allows the compiler to do optimizations.
     # pedantic: enabled

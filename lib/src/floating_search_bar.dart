@@ -4,10 +4,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart'
     hide ImplicitlyAnimatedWidget, ImplicitlyAnimatedWidgetState;
 import 'package:flutter/services.dart';
-
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
-import 'floating_search_bar_dismissable.dart';
+import 'floating_search_bar_dismissible.dart';
 import 'search_bar_style.dart';
 import 'text_controller.dart';
 import 'util/util.dart';
@@ -65,21 +64,21 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   ///
   /// This can be used to position the `FloatingSearchBar`.
   ///
-  /// If not specifed, the `FloatingSearchBar` will try to
-  /// position itself at the top offsetted by
+  /// If not specified, the `FloatingSearchBar` will try to
+  /// position itself at the top offsets by
   /// `MediaQuery.of(context).viewPadding.top` to avoid
   /// the status bar.
   final EdgeInsetsGeometry? margins;
 
   /// The padding of the card.
   ///
-  /// Only the horizontal values will be honored.
+  /// Only the horizontal values will be honoured.
   final EdgeInsetsGeometry? padding;
 
   /// The padding between [leadingActions], the input field and [actions],
   /// respectively.
   ///
-  /// Only the horizontal values will be honored.
+  /// Only the horizontal values will be honoured.
   final EdgeInsetsGeometry? insets;
 
   /// The height of the card.
@@ -140,7 +139,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// Whether the current query should be cleared when
   /// the `FloatingSearchBar` was closed.
   ///
-  /// When not specifed, defaults to `true`.
+  /// When not specified, defaults to `true`.
   /// {@endtemplate}
   final bool clearQueryOnClose;
 
@@ -174,7 +173,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// show a determined [LinearProgressIndicator].
   ///
   /// When set to `true`, the `FloatingSearchBar` will
-  /// show an indetermined [LinearProgressIndicator].
+  /// show an undetermined [LinearProgressIndicator].
   ///
   /// When `null` or `false`, will hide the [LinearProgressIndicator].
   /// {@endtemplate}
@@ -303,16 +302,16 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// {@endtemplate}
   final bool autocorrect;
 
-  /// {@template floating_search_bar.toolbarOptions}
-  /// The [ToolbarOptions] of the [TextField] of
+  /// {@template floating_search_bar.contextMenuBuilder}
+  /// The [contextMenuBuilder] of the [TextField] of
   /// this `FloatingSearchBar`.
   /// {@endtemplate}
-  final ToolbarOptions? toolbarOptions;
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
 
-  /// Hides the `FloatingSearchBar` intially for the specified
+  /// Hides the `FloatingSearchBar` initially for the specified
   /// duration and then translates it from the top to its position.
   ///
-  /// This can be used as a simple enrance animation.
+  /// This can be used as a simple entrance animation.
   final Duration? showAfter;
 
   // * --- Scrolling --- *
@@ -324,7 +323,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   ///
   ///
   /// to dismiss itself when tapped below the height of child inside the
-  /// [Scrollable], when the child is smaller than the avaialble height.
+  /// [Scrollable], when the child is smaller than the available height.
   final bool isScrollControlled;
 
   /// The [ScrollPhysics] of the [SingleChildScrollView] for the body of
@@ -388,7 +387,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
     this.textInputAction = TextInputAction.search,
     this.textInputType = TextInputType.text,
     this.autocorrect = true,
-    this.toolbarOptions,
+    this.contextMenuBuilder,
     Duration? showAfter,
     this.isScrollControlled = false,
     this.physics,
@@ -742,7 +741,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       automaticallyImplyDrawerHamburger:
           widget.automaticallyImplyDrawerHamburger,
       automaticallyImplyBackButton: widget.automaticallyImplyBackButton,
-      toolbarOptions: widget.toolbarOptions,
+      contextMenuBuilder: widget.contextMenuBuilder,
       transitionDuration: widget.transitionDuration,
       transitionCurve: widget.transitionCurve,
       textInputAction: widget.textInputAction,
@@ -804,7 +803,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
     final body = transition.buildTransition(
       widget.isScrollControlled
           ? this.body
-          : FloatingSearchBarDismissable(
+          : FloatingSearchBarDismissible(
               controller: _scrollController,
               padding: widget.scrollPadding,
               physics: widget.physics,
@@ -925,7 +924,7 @@ class FloatingSearchBarController {
   /// The current query of the [FloatingSearchBar].
   String get query => _appBarState?.query ?? '';
 
-  /// Cleares the current query.
+  /// Clears the current query.
   void clear() => _appBarState?.clear();
 
   /// Whether the [FloatingSearchBar] is currently
