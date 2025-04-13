@@ -1,3 +1,7 @@
+# This package is no longer maintained
+
+Please consider https://pub.dev/packages/material_floating_search_bar_2 as an alternative
+
 # Material Floating Search Bar
 
 **Please be aware, this is a fork of the official package as it appears to no longer be maintained.**
